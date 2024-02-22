@@ -73,7 +73,7 @@ export default function ForecastWeatherDetails({ weatherData }: Props) {
                             </TableHead>
                             <TableBody>
                                 {firstDataForEachDate.map((d, i) => (
-                                    <TableRow className="hover:bg-indigo-30 group/item cursor-pointer" onClick={() => handleOpen(i)} key={`${d?.dt}-${d?.main.temp}-${i}`}>
+                                    <TableRow className="hover:bg-indigo-50 group/item cursor-pointer" onClick={() => handleOpen(i)} key={`${d?.dt}-${d?.main.temp}-${i}`}>
                                         <TableCell>
                                             <p className="flex gap-1 text-2xl  items-end ">
                                                 {i === 0 ? (
