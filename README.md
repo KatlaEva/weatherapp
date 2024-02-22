@@ -1,6 +1,6 @@
 # Katla's weather forecast
 
-This is a simple weather forcast app that uses a 5 day/3 hour forecast data from www.openweathermap.org. First users will se a simple display with todays weather data and after that a table with a 5 day forecast. Users are able to click on each day in the table to see detailed weatherinformaiton displayed with 3 hour intervals. In the navigationbar users are able to search for a city and see a weather forcast for a specific location.
+This is a simple weather forcast app that uses a 5 day/3 hour forecast data from www.openweathermap.org. First users will se a simple display with todays weather data and after that a table with a 5 day forecast. Users are able to click on each day in the table to see detailed weather informaiton displayed with 3 hour intervals. In the navigation bar users are able to search for a city and see a weather forcast for a specific location.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
