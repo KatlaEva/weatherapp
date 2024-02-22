@@ -9,29 +9,32 @@ type Props = {
     weatherData?: WeatherData;
 }
 
+
+
 export default function TodayWeatherDetails({ weatherData }: Props) {
+
+    const firstdata = weatherData?.list[0];
 
     return (
         <main className="px-20 mx-auto flex w-full">
             <Card className="flex gap-10 w-90 mx-auto sm:gap-16 items-center">
                 <CardContent>
-                    <div className=" flex flex-col px-4 h-auto">
-                        <p className="font-semibold">Now</p>
+                    <div className=" flex flex-col px-4 h-auto items-center">
                         <p className="text-5xl">
                             {convertKelvinToCelsius(weatherData?.list[0].main.temp ?? 296.37)}°
                         </p>
-                        <p className="text-xs space-x-1 whitespace-nowrap">
-                            <span> Feels like</span>
+                        <p className="text-s space-x-2 whitespace-nowrap font-semibold">
+                            <span>Feels like</span>
                             <span>
                                 {convertKelvinToCelsius(weatherData?.list[0].main.feels_like ?? 0)}°
                             </span>
                         </p>
-                        <p className="text-xs space-x-2">
-                            <span>
-                                {convertKelvinToCelsius(weatherData?.list[0].main.temp_min ?? 0)}°↓{" "}
-                            </span>
-                            <span>
+                        <p className="text-s space-x-2 font-semibold">
+                            <span className="text-red-700">
                                 {" "}{convertKelvinToCelsius(weatherData?.list[0].main.temp_max ?? 0)}°↑
+                            </span>
+                            <span className="text-blue-700">
+                                {convertKelvinToCelsius(weatherData?.list[0].main.temp_min ?? 0)}°↓{" "}
                             </span>
                         </p>
                     </div>
@@ -41,7 +44,7 @@ export default function TodayWeatherDetails({ weatherData }: Props) {
                         {weatherData?.list.map((d, i) => (
                             <div
                                 key={i}
-                                className="flex flex-col justify-between gap-2 items-center text-xs font-semibold">
+                                className="flex flex-col justify-between gap-2 items-center text-xs font-semibold pb-4">
                                 <p className="whitespace-nowrap">{format(parseISO(d.dt_txt), "h:mm a")}</p>
                                 <WeatherIcon iconName={d.weather[0].icon} />
                                 <p>{convertKelvinToCelsius(d.main.temp ?? 0)}°</p>

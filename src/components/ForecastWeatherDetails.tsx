@@ -53,25 +53,27 @@ export default function ForecastWeatherDetails({ weatherData }: Props) {
     });
 
     return (
-        <main className="px-20 mx-auto flex w-full">
+        <main className="px-20 mx-auto flex w-full mb-5">
             <Card className="flex flex-col gap-4 w-full">
                 <CardContent>
                     <TableContainer>
                         <Table aria-label="simple table">
                             <TableHead>
-                                <TableRow className="bg-gray-100">
-                                    <TableCell>Date</TableCell>
-                                    <TableCell>Visability</TableCell>
-                                    <TableCell>Humidity</TableCell>
-                                    <TableCell>Wind speed</TableCell>
-                                    <TableCell>Air pressure</TableCell>
-                                    <TableCell>Sunrise</TableCell>
-                                    <TableCell>Sunset</TableCell>
+                                <TableRow className="bg-indigo-100">
+                                    <TableCell><span className="font-semibold text-lg text-gray-600">Date</span></TableCell>
+                                    <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Weather</span></TableCell>
+                                    <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Visability</span></TableCell>
+                                    <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Humidity</span></TableCell>
+                                    <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Wind m/s</span></TableCell>
+                                    <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Air pressure</span></TableCell>
+                                    <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Sunrise</span></TableCell>
+                                    <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Sunset</span></TableCell>
+                                    <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {firstDataForEachDate.map((d, i) => (
-                                    <TableRow className="hover:bg-gray-100" onClick={() => handleOpen(i)} key={i}>
+                                    <TableRow className="hover:bg-indigo-30 group/item cursor-pointer" onClick={() => handleOpen(i)} key={`${d?.dt}-${d?.main.temp}-${i}`}>
                                         <TableCell>
                                             <p className="flex gap-1 text-2xl  items-end ">
                                                 {i === 0 ? (
@@ -91,16 +93,24 @@ export default function ForecastWeatherDetails({ weatherData }: Props) {
                                             </p>
                                             <p> {Math.round(d?.wind.speed ?? 0)} {"m/s"}</p>
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
+                                            <div className="flex justify-center">
+                                                <WeatherIcon iconName={d?.weather[0].icon ?? "04d"} />
+                                            </div>
+                                        </TableCell>
+                                        <TableCell align="center">
                                             <p>
                                                 {metersToKilometers(d?.visibility ?? 0)}
                                             </p>
                                         </TableCell>
-                                        <TableCell>{d?.main.humidity ?? 0}{"%"}</TableCell>
-                                        <TableCell>{Math.round(d?.wind.speed ?? 0)} {"km/h"}</TableCell>
-                                        <TableCell>{d?.main.pressure ?? 0} {"hPa"}</TableCell>
-                                        <TableCell>{format(fromUnixTime(weatherData?.city.sunrise ?? 0), "H:mm")}</TableCell>
-                                        <TableCell>{format(fromUnixTime(weatherData?.city.sunset ?? 0), "H:mm")}</TableCell>
+                                        <TableCell align="center">{d?.main.humidity ?? 0}{"%"}</TableCell>
+                                        <TableCell align="center">{Math.round(d?.wind.speed ?? 0)} {"m/s"}</TableCell>
+                                        <TableCell align="center">{d?.main.pressure ?? 0} {"hPa"}</TableCell>
+                                        <TableCell align="center">{format(fromUnixTime(weatherData?.city.sunrise ?? 0), "H:mm")}</TableCell>
+                                        <TableCell align="center">{format(fromUnixTime(weatherData?.city.sunset ?? 0), "H:mm")}</TableCell>
+                                        <TableCell align="center">
+                                            <button className="group/edit invisible hover:bg-slate-200 group-hover/item:visible font-semibold text-gray-500 px-2 py-1 rounded-md cursor-pointer">See time by time</button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -122,25 +132,40 @@ export default function ForecastWeatherDetails({ weatherData }: Props) {
                 }}
             >
                 <Fade in={open}>
-                    <Box className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-auto max-w-screen-lg h-96 overflow-y-auto bg-white border-2 border-black shadow-lg p-4">
+                    <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-5/12 h-4/6 overflow-y-auto bg-white border-2 border-black shadow-lg p-4">
                         <TableContainer>
                             <Table>
+                                <TableHead>
+                                    <TableRow className="bg-indigo-100">
+                                        <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Time</span></TableCell>
+                                        <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Weather</span></TableCell>
+                                        <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Temperature</span></TableCell>
+                                        <TableCell align="center"><span className="font-semibold text-lg text-gray-600">Wind m/s</span></TableCell>
+                                    </TableRow>
+                                </TableHead>
                                 <TableBody>
                                     {weatherDataForSelectedDate.map((d, i) => (
                                         <TableRow>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 <div
-                                                    key={i}
-                                                    className="flex flex-col justify-between gap-2 items-center text-xs font-semibold">
-                                                    <p className="whitespace-nowrap">{format(parseISO(d.dt_txt), "h:mm a")}</p>
+                                                    key={`${d?.dt}-${d?.main.temp}-${i}`}
+                                                    className="text-s font-semibold">
+                                                    <p className="whitespace-nowrap">{format(parseISO(d.dt_txt ?? " "), "h:mm a")}</p>
                                                 </div>
                                             </TableCell>
-                                            <TableCell>
-                                                <WeatherIcon iconName={d.weather[0].icon} />
+                                            <TableCell align="right">
+                                                <div className="flex justify-center">
+                                                    <WeatherIcon iconName={d.weather[0].icon ?? "0d4"} />
+                                                </div>
                                             </TableCell>
-                                            <TableCell>
-                                                <div className="flex flex-col justify-between gap-2 items-center text-xs font-semibold">
-                                                    <p>{convertKelvinToCelsius(d.main.temp ?? 0)}°</p>
+                                            <TableCell align="center">
+                                                <div className="text-s font-semibold">
+                                                    <p className="pl-1">{convertKelvinToCelsius(d.main.temp ?? 0)}°</p>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <div className="text-s font-semibold">
+                                                    {Math.round(d.wind.speed ?? 0)} {"m/s"}
                                                 </div>
                                             </TableCell>
                                         </TableRow>
@@ -151,8 +176,7 @@ export default function ForecastWeatherDetails({ weatherData }: Props) {
                     </Box>
                 </Fade>
             </Modal>
-        </main>
-
+        </main >
     )
 }
 
